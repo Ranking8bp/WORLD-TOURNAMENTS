@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ranking de Copas - 8 Ball Pool</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg-main: #050712;
+      --bg-card: #0b0f1f;
+      --bg-card-soft: #151a30;
+      --accent: #00ffc6;
+      --accent-soft: rgba(0, 255, 198, 0.12);
+      --text-main: #f5f7ff;
+      --text-muted: #9ca3c7;
+      --gold: #ffd700;
+      --silver: #c0c0c0;
+      --bronze: #cd7f32;
+      --danger: #ff4b6b;
+      --border-soft: rgba(255, 255, 255, 0.08);
+      --radius-lg: 18px;
+      --radius-sm: 10px;
+      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.55);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background: radial-gradient(circle at top, #192345 0, #050712 55%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1120px;
+    }
+
+    .head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+
+    .head-left h1 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .head-left h1 span.logo-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent);
+    }
+
+    .head-left p {
+      margin-top: 4px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .head-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .badge-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255, 0, 72, 0.1);
+      border: 1px solid rgba(255, 0, 72, 0.4);
+      color: #ff5a8a;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .badge-live span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #ff4b6b;
+      box-shadow: 0 0 8px #ff4b6b;
+    }
+
+    .last-updated {
+      opacity: 0.8;
+    }
+
+    .card {
+      background: linear-gradient(135deg, rgba(0, 255, 198, 0.03), rgba(0, 128, 255, 0.02));
+      border-radius: var(--radius-lg);
+      padding: 18px 18px 14px 18px;
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(14px);
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 12px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .filters-left,
+    .filters-right {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .pill {
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 12px;
+      border: 1px solid var(--border-soft);
+      background: rgba(5, 7, 18, 0.8);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+    }
+
+    .pill strong {
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .pill-select {
+      cursor: pointer;
+    }
+
+    .pill-select::after {
+      content: "▾";
+      font-size: 10px;
+      opacity: 0.6;
+    }
+
+    .pill-accent {
+      border-color: rgba(0, 255, 198, 0.45);
+      background: var(--accent-soft);
+      color: var(--accent);
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+    }
+
+    .pill-input {
+      padding: 6px 11px;
+      gap: 6px;
+    }
+
+    .pill-input input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-main);
+      font-size: 12px;
+      min-width: 100px;
+    }
+
+    .pill-input input::placeholder {
+      color: rgba(156, 163, 199, 0.7);
+    }
+
+    .table-wrapper {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border-soft);
+      background: radial-gradient(circle at top left, rgba(0, 255, 198, 0.12), transparent 55%), #050712;
+      max-height: 520px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    thead {
+      background: rgba(11, 15, 31, 0.9);
+    }
+
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    tbody tr {
+      background: rgba(5, 7, 18, 0.96);
+      transition: background 0.15s ease, transform 0.12s ease;
+    }
+
+    tbody tr:nth-child(even) {
+      background: rgba(10, 12, 24, 0.98);
+    }
+
+    tbody tr:hover {
+      background: rgba(18, 24, 54, 0.98);
+      transform: translateY(-1px);
+    }
+
+    td.position {
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    td.position span {
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+    }
+
+    tr:nth-child(1) td.position span {
+      color: var(--gold);
+      border-color: rgba(255, 215, 0, 0.5);
+      background: rgba(255, 215, 0, 0.12);
+    }
+
+    tr:nth-child(2) td.position span {
+      color: var(--silver);
+      border-color: rgba(192, 192, 192, 0.4);
+      background: rgba(192, 192, 192, 0.12);
+    }
+
+    tr:nth-child(3) td.position span {
+      color: var(--bronze);
+      border-color: rgba(205, 127, 50, 0.4);
+      background: rgba(205, 127, 50, 0.12);
+    }
+
+    .player-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, #1f2937, #020617);
+      border: 1px solid var(--border-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    .player-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .player-name {
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .player-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .flag {
+      font-size: 16px;
+    }
+
+    .cups-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 255, 198, 0.4);
+      background: rgba(0, 255, 198, 0.08);
+      font-size: 11px;
+    }
+
+    .cups-badge span.value {
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--border-soft);
+      color: var(--text-muted);
+    }
+
+    .tag-streak {
+      border-color: rgba(0, 255, 198, 0.5);
+      background: rgba(0, 255, 198, 0.12);
+      color: var(--accent);
+    }
+
+    .tag-new {
+      border-color: rgba(129, 140, 248, 0.5);
+      background: rgba(129, 140, 248, 0.12);
+      color: #a5b4fc;
+    }
+
+    .trend-up {
+      color: var(--accent);
+      font-size: 11px;
+    }
+
+    .trend-down {
+      color: var(--danger);
+      font-size: 11px;
+    }
+
+    .footer {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+      opacity: 0.9;
+    }
+
+    .footer span.highlight {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 16px;
+      }
+
+      .head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .head-right {
+        align-items: flex-start;
+      }
+
+      .filters {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      th:nth-child(5),
+      td:nth-child(5),
+      th:nth-child(6),
+      td:nth-child(6) {
+        display: none; /* Oculta algunas columnas en móvil */
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="head">
+      <div class="head-left">
+        <h1>
+          <span class="logo-dot"></span>
+          Ranking de Copas · 8 Ball Pool
+        </h1>
+        <p>Historial oficial de campeones nocturnos · Torneos diarios</p>
+      </div>
+      <div class="head-right">
+        <div class="badge-live">
+          <span class="dot"></span>
+          TORNEO NOCTURNO ACTIVO
+        </div>
+        <div class="last-updated">
+          Última actualización: <strong>05/12/2025 · 03:15</strong>
+        </div>
+      </div>
+    </header>
+
+    <main class="card">
+      <section class="filters">
+        <div class="filters-left">
+          <div class="pill pill-select">
+            Temporada: <strong>2025 · Noche</strong>
+          </div>
+          <div class="pill pill-select">
+            Ordenar por: <strong>Copas totales</strong>
+          </div>
+          <div class="pill pill-accent">
+            TOP CAMPEONES
+          </div>
+        </div>
+        <div class="filters-right">
+          <div class="pill pill-input">
+            🔍
+            <input type="text" placeholder="Buscar jugador..." />
+          </div>
+        </div>
+      </section>
+
+      <section class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Jugador</th>
+              <th>País</th>
+              <th>Copas</th>
+              <th>Última copa</th>
+              <th>Notas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- EJEMPLOS – aquí luego puedes conectar tus datos -->
+            <tr>
+              <td class="position"><span>1</span></td>
+              <td>
+                <div class="player-cell">
+                  <div class="avatar">IK</div>
+                  <div class="player-info">
+                    <span class="player-name">IKAR</span>
+                    <span class="player-meta">Rey nocturno · 8BP</span>
+                  </div>
+                </div>
+              </td>
+              <td class="flag">🇪🇨</td>
+              <td>
+                <div class="cups-badge">
+                  🏆 <span class="value">8</span> copas
+                </div>
+              </td>
+              <td>04/12/2025</td>
+              <td>
+                <span class="tag tag-streak">Racha activa x3</span>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="position"><span>2</span></td>
+              <td>
+                <div class="player-cell">
+                  <div class="avatar">VN</div>
+                  <div class="player-info">
+                    <span class="player-name">VENOM8BP</span>
+                    <span class="player-meta">Jugador destacado</span>
+                  </div>
+                </div>
+              </td>
+              <td class="flag">🇲🇽</td>
+              <td>
+                <div class="cups-badge">
+                  🏆 <span class="value">5</span> copas
+                </div>
+              </td>
+              <td>03/12/2025</td>
+              <td>
+                <span class="tag">Finales: 7</span>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="position"><span>3</span></td>
+              <td>
+                <div class="player-cell">
+                  <div class="avatar">CR</div>
+                  <div class="player-info">
+                    <span class="player-name">CATRACHO</span>
+                    <span class="player-meta">Siempre en top 5</span>
+                  </div>
+                </div>
+              </td>
+              <td class="flag">🇭🇳</td>
+              <td>
+                <div class="cups-badge">
+                  🏆 <span class="value">4</span> copas
+                </div>
+              </td>
+              <td>01/12/2025</td>
+              <td>
+                <span class="tag tag-new">Subiendo fuerte</span>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="position"><span>4</span></td>
+              <td>
+                <div class="player-cell">
+                  <div class="avatar">UR</div>
+                  <div class="player-info">
+                    <span class="player-name">URIEL</span>
+                    <span class="player-meta">Participante constante</span>
+                  </div>
+                </div>
+              </td>
+              <td class="flag">🇵🇪</td>
+              <td>
+                <div class="cups-badge">
+                  🏆 <span class="value">3</span> copas
+                </div>
+              </td>
+              <td>30/11/2025</td>
+              <td><span class="trend-up">+1 copa esta semana</span></td>
+            </tr>
+
+            <!-- Puedes seguir duplicando filas y cambiando los datos -->
+          </tbody>
+        </table>
+      </section>
+
+      <footer class="footer">
+        <span>1 copa = 1 torneo nocturno ganado</span>
+        <span>Proyecto: <span class="highlight">Liga Nocturna 8 Ball Pool</span></span>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>
+
+
+
