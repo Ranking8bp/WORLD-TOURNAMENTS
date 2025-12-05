@@ -301,11 +301,6 @@
       font-size: 13px;
     }
 
-    .player-meta {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
     .flag {
       font-size: 16px;
     }
@@ -324,37 +319,6 @@
     .cups-badge span.value {
       font-weight: 600;
       color: var(--accent);
-    }
-
-    .tag {
-      font-size: 11px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid var(--border-soft);
-      color: var(--text-muted);
-    }
-
-    .tag-streak {
-      border-color: rgba(0, 255, 198, 0.5);
-      background: rgba(0, 255, 198, 0.12);
-      color: var(--accent);
-    }
-
-    .tag-new {
-      border-color: rgba(129, 140, 248, 0.5);
-      background: rgba(129, 140, 248, 0.12);
-      color: #a5b4fc;
-    }
-
-    .trend-up {
-      color: var(--accent);
-      font-size: 11px;
-    }
-
-    .trend-down {
-      color: var(--danger);
-      font-size: 11px;
     }
 
     .footer {
@@ -394,7 +358,7 @@
       td:nth-child(5),
       th:nth-child(6),
       td:nth-child(6) {
-        display: none; /* Oculta algunas columnas en móvil */
+        display: none;
       }
     }
   </style>
@@ -438,7 +402,6 @@
         <div class="filters-right">
           <div class="pill pill-input">
             🔍
-            <!-- 👇 le damos un id -->
             <input id="search-jugador" type="text" placeholder="Buscar jugador..." />
           </div>
         </div>
@@ -471,7 +434,6 @@
     const SHEET_CSV_URL =
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_0o0lo_oqp60rh4u_bOvadsM0MqWJxzQgcz37DDA9CpP0zujrJ2pkKEBhCGhV8G3bMGOxJGDFdI0O/pub?output=csv";
 
-    // aquí guardamos todos los jugadores
     let jugadoresGlobal = [];
 
     function crearFilaJugador(index, jugador, pais, copas, ultimaCopa, notas) {
@@ -507,7 +469,6 @@
       `;
     }
 
-    // pinta la tabla a partir de un array de jugadores
     function renderTabla(lista) {
       const tbody = document.getElementById("ranking-body");
       tbody.innerHTML = lista
@@ -527,7 +488,6 @@
         jugadoresGlobal = rows
           .map((row) => {
             const cols = row.split(",");
-
             return {
               jugador: (cols[0] || "").trim(),
               pais: (cols[1] || "").trim(),
@@ -539,35 +499,39 @@
           .filter((j) => j.jugador)
           .sort((a, b) => b.copas - a.copas);
 
-        // pintamos todos al inicio
         renderTabla(jugadoresGlobal);
 
-        // actualizamos fecha/hora
         document.getElementById("last-updated").textContent =
           new Date().toLocaleString("es-ES");
-
-        // configurar buscador
-        const input = document.getElementById("search-jugador");
-        input.addEventListener("input", (e) => {
-          const term = e.target.value.toLowerCase().trim();
-
-          if (!term) {
-            renderTabla(jugadoresGlobal);
-            return;
-          }
-
-          const filtrados = jugadoresGlobal.filter((j) =>
-            j.jugador.toLowerCase().includes(term)
-          );
-
-          renderTabla(filtrados);
-        });
       } catch (error) {
         console.error("Error cargando datos:", error);
       }
     }
 
-    document.addEventListener("DOMContentLoaded", cargarRanking);
+    function setupBuscador() {
+      const input = document.getElementById("search-jugador");
+      if (!input) return;
+
+      input.addEventListener("input", (e) => {
+        const term = e.target.value.toLowerCase().trim();
+
+        if (!term) {
+          renderTabla(jugadoresGlobal);
+          return;
+        }
+
+        const filtrados = jugadoresGlobal.filter((j) =>
+          j.jugador.toLowerCase().includes(term)
+        );
+
+        renderTabla(filtrados);
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      cargarRanking();
+      setupBuscador();
+    });
   </script>
 </body>
 </html>
