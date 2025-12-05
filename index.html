@@ -9,6 +9,7 @@
       --bg-main: #050712;
       --bg-card: #0b0f1f;
       --bg-card-soft: #151a30;
+
       --accent: #00ffc6;
       --accent-soft: rgba(0, 255, 198, 0.12);
       --text-main: #f5f7ff;
@@ -195,10 +196,11 @@
 
     .table-wrapper {
       border-radius: 14px;
-      overflow: hidden;
+      overflow-y: auto; /* 👈 scroll vertical */
+      overflow-x: hidden;
       border: 1px solid var(--border-soft);
       background: radial-gradient(circle at top left, rgba(0, 255, 198, 0.12), transparent 55%), #050712;
-      max-height: 520px;
+      max-height: 520px; /* altura máxima visible antes de scroll */
     }
 
     table {
@@ -413,9 +415,9 @@
           TORNEO NOCTURNO ACTIVO
         </div>
         <div class="last-updated">
-                  <span class="small-text">
-    Última actualización: <strong id="last-updated">Cargando...</strong>
-</span>
+          <span class="small-text">
+            Última actualización: <strong id="last-updated">Cargando...</strong>
+          </span>
         </div>
       </div>
     </header>
@@ -453,8 +455,7 @@
               <th>Notas</th>
             </tr>
           </thead>
-        <tbody id="ranking-body">
-                    </tbody>
+          <tbody id="ranking-body"></tbody>
         </table>
       </section>
 
@@ -464,107 +465,85 @@
       </footer>
     </main>
   </div>
-<script>
-  const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_0o0lo_oqp60rh4u_bOvadsM0MqWJxzQgcz37DDA9CpP0zujrJ2pkKEBhCGhV8G3bMGOxJGDFdI0O/pub?output=csv";
 
-  function crearFilaJugador(index, jugador, pais, copas, ultimaCopa, notas) {
-    const pos = index + 1;
-    const iniciales = jugador
-      .split(" ")
-      .filter(Boolean)
-      .map(p => p[0])
-      .join("")
-      .slice(0, 2)
-      .toUpperCase();
+  <script>
+    const SHEET_CSV_URL =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_0o0lo_oqp60rh4u_bOvadsM0MqWJxzQgcz37DDA9CpP0zujrJ2pkKEBhCGhV8G3bMGOxJGDFdI0O/pub?output=csv";
 
-    return `
-      <tr>
-        <td class="position"><span>${pos}</span></td>
-        <td>
-          <div class="player-cell">
-            <div class="avatar">${iniciales}</div>
-            <div class="player-info">
-              <span class="player-name">${jugador}</span>
+    function crearFilaJugador(index, jugador, pais, copas, ultimaCopa, notas) {
+      const pos = index + 1;
+      const iniciales = jugador
+        .split(" ")
+        .filter(Boolean)
+        .map((p) => p[0])
+        .join("")
+        .slice(0, 2)
+        .toUpperCase();
+
+      return `
+        <tr>
+          <td class="position"><span>${pos}</span></td>
+          <td>
+            <div class="player-cell">
+              <div class="avatar">${iniciales}</div>
+              <div class="player-info">
+                <span class="player-name">${jugador}</span>
+              </div>
             </div>
-          </div>
-        </td>
-        <td class="flag">${pais}</td>
-        <td>
-          <div class="cups-badge">
-            🏆 <span class="value">${copas}</span> copas
-          </div>
-        </td>
-        <td>${ultimaCopa}</td>
-        <td>${notas}</td>
-      </tr>
-    `;
-  }
-
-async function cargarRanking() {
-  try {
-    const res = await fetch(SHEET_CSV_URL);
-    const text = await res.text();
-
-    // Cada fila del CSV (quitamos encabezado)
-    const rows = text.trim().split("\n").slice(1);
-
-    const jugadores = rows
-      .map(row => {
-        const cols = row.split(",");
-
-        return {
-          jugador: (cols[0] || "").trim(),
-          pais: (cols[1] || "").trim(),
-          copas: Number((cols[2] || "0").trim()),
-          ultimaCopa: (cols[3] || "").trim(),
-          notas: (cols[4] || "").trim(),
-        };
-      })
-      // Quitamos filas donde no hay nombre
-      .filter(j => j.jugador)
-      // Ordenar por copas (mayor a menor)
-      .sort((a, b) => b.copas - a.copas);
-
-    // Pintar TODAS las filas (sin slice, sin límite)
-    document.getElementById("ranking-body").innerHTML = jugadores
-      .map((j, i) =>
-        crearFilaJugador(i, j.jugador, j.pais, j.copas, j.ultimaCopa, j.notas)
-      )
-      .join("");
-
-    // Actualizar fecha/hora
-    document.getElementById("last-updated").textContent =
-      new Date().toLocaleString("es-ES");
-
-  } catch (error) {
-    console.error("Error cargando datos:", error);
-  }
-}
-
-
-      document.getElementById("ranking-body").innerHTML = jugadores
-        .map((j, i) =>
-          crearFilaJugador(i, j.jugador, j.pais, j.copas, j.ultimaCopa, j.notas)
-        )
-        .join("");
-
-      document.getElementById("last-updated").textContent =
-        new Date().toLocaleString("es-ES");
-
-    } catch (error) {
-      console.error("Error cargando datos:", error);
+          </td>
+          <td class="flag">${pais}</td>
+          <td>
+            <div class="cups-badge">
+              🏆 <span class="value">${copas}</span> copas
+            </div>
+          </td>
+          <td>${ultimaCopa}</td>
+          <td>${notas}</td>
+        </tr>
+      `;
     }
-  }
 
-  document.addEventListener("DOMContentLoaded", cargarRanking);
-</script>
+    async function cargarRanking() {
+      try {
+        const res = await fetch(SHEET_CSV_URL);
+        const text = await res.text();
 
+        // Cada fila del CSV (quitamos encabezado)
+        const rows = text.trim().split("\n").slice(1);
+
+        const jugadores = rows
+          .map((row) => {
+            const cols = row.split(",");
+
+            return {
+              jugador: (cols[0] || "").trim(),
+              pais: (cols[1] || "").trim(),
+              copas: Number((cols[2] || "0").trim()),
+              ultimaCopa: (cols[3] || "").trim(),
+              notas: (cols[4] || "").trim(),
+            };
+          })
+          // Quitamos filas donde no hay nombre
+          .filter((j) => j.jugador)
+          // Ordenar por copas (mayor a menor)
+          .sort((a, b) => b.copas - a.copas);
+
+        // Pintar TODAS las filas
+        document.getElementById("ranking-body").innerHTML = jugadores
+          .map((j, i) =>
+            crearFilaJugador(i, j.jugador, j.pais, j.copas, j.ultimaCopa, j.notas)
+          )
+          .join("");
+
+        // Actualizar fecha/hora
+        document.getElementById("last-updated").textContent =
+          new Date().toLocaleString("es-ES");
+      } catch (error) {
+        console.error("Error cargando datos:", error);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", cargarRanking);
+  </script>
 </body>
 </html>
-
-
-
-
-
-
-
