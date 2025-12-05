@@ -280,7 +280,6 @@
       width: 30px;
       height: 30px;
       border-radius: 999px;
-      background: radial-gradient(circle at top, #1f2937, #020617);
       border: 1px solid var(--border-soft);
       display: flex;
       align-items: center;
@@ -289,6 +288,8 @@
       font-weight: 600;
       color: var(--accent);
       text-transform: uppercase;
+      background-color: #1f2937;
+      overflow: hidden;
     }
 
     .player-info {
@@ -436,8 +437,8 @@
 
     let jugadoresGlobal = [];
 
-    // AHORA recive la posición ya calculada (rank)
-    function crearFilaJugador(posicion, jugador, pais, copas, ultimaCopa, notas) {
+    // ahora incluye foto
+    function crearFilaJugador(posicion, jugador, pais, copas, ultimaCopa, notas, foto) {
       const iniciales = jugador
         .split(" ")
         .filter(Boolean)
@@ -446,12 +447,19 @@
         .slice(0, 2)
         .toUpperCase();
 
+      // si hay foto, usamos background-image; si no, mostramos iniciales
+      const avatarStyle = foto
+        ? `background-image:url('${foto}');background-size:cover;background-position:center;`
+        : "";
+
       return `
         <tr>
           <td class="position"><span>${posicion}</span></td>
           <td>
             <div class="player-cell">
-              <div class="avatar">${iniciales}</div>
+              <div class="avatar" style="${avatarStyle}">
+                ${foto ? "" : iniciales}
+              </div>
               <div class="player-info">
                 <span class="player-name">${jugador}</span>
               </div>
@@ -473,7 +481,15 @@
       const tbody = document.getElementById("ranking-body");
       tbody.innerHTML = lista
         .map((j) =>
-          crearFilaJugador(j.rank, j.jugador, j.pais, j.copas, j.ultimaCopa, j.notas)
+          crearFilaJugador(
+            j.rank,
+            j.jugador,
+            j.pais,
+            j.copas,
+            j.ultimaCopa,
+            j.notas,
+            j.foto
+          )
         )
         .join("");
     }
@@ -488,17 +504,18 @@
         jugadoresGlobal = rows
           .map((row) => {
             const cols = row.split(",");
+
             return {
               jugador: (cols[0] || "").trim(),
               pais: (cols[1] || "").trim(),
               copas: Number((cols[2] || "0").trim()),
               ultimaCopa: (cols[3] || "").trim(),
               notas: (cols[4] || "").trim(),
+              foto: (cols[5] || "").trim(), // NUEVA COLUMNA FOTO
             };
           })
           .filter((j) => j.jugador)
           .sort((a, b) => b.copas - a.copas)
-          // aquí asignamos el puesto original (rank)
           .map((j, index) => ({
             ...j,
             rank: index + 1,
