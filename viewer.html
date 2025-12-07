@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Streaming en vivo 8BP</title>
+</head>
+<body style="background:#000; color:white; text-align:center;">
+
+    <h2>🔴 Jugada en vivo</h2>
+    <video id="live" autoplay playsinline style="width:95%; max-width:600px; border:2px solid #00ffc6; background:black;"></video>
+
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+    <script>
+        const socket = io("https://streaming-torneos-server-1.onrender.com");
+        let peerConnection;
+        const video = document.getElementById("live");
+
+        const config = {
+            iceServers: [
+                { urls: "stun:stun.l.google.com:19302" }
+            ]
+        };
+
+        socket.on("broadcaster", id => {
+            socket.emit("watcher", id);
+        });
+
+        socket.on("offer", (id, description) => {
+            peerConnection = new RTCPeerConnection(config);
+
+            peerConnection
+                .setRemoteDescription(description)
+                .then(() => peerConnection.createAnswer())
+                .then(sdp => peerConnection.setLocalDescription(sdp))
+                .then(() => {
+                    socket.emit("answer", id, peerConnection.localDescription);
+                });
+
+            peerConnection.ontrack = (e) => {
+                video.srcObject = e.streams[0];
+            };
+
+            peerConnection.onicecandidate = (event) => {
+                if (event.candidate) {
+                    socket.emit("candidate", id, event.candidate);
+                }
+            };
+        });
+
+        socket.on("candidate", (id, candidate) => {
+            peerConnection
+                .addIceCandidate(new RTCIceCandidate(candidate))
+                .catch(e => console.error(e));
+        });
+
+        socket.on("broadcast-ended", () => {
+            video.srcObject = null;
+        });
+
+        socket.on("disconnectPeer", () => {
+            if (peerConnection) peerConnection.close();
+        });
+    </script>
+
+</body>
+</html>
