@@ -1033,7 +1033,78 @@
       return pc;
     }
   </script>
+<!-- =======================
+     🔴 TRANSMISIÓN EN VIVO
+     ======================= -->
+<div style="
+    width: 90%;
+    margin: 40px auto;
+    padding: 20px;
+    background: #0b0f1f;
+    border-radius: 12px;
+    border: 1px solid #0ef2dd55;
+">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+    <h3 style="margin:0;">🔴 Transmisión en vivo · Mesas & Jugadas</h3>
+
+    <button
+      onclick="window.open('broadcaster.html', '_blank')"
+      style="background:#16a34a;color:white;border:none;padding:8px 16px;
+             border-radius:999px;cursor:pointer;font-weight:600;">
+      🚀 Soy el streamer (compartir pantalla)
+    </button>
+  </div>
+
+  <video id="liveVideo" autoplay playsinline
+         style="width:100%;height:300px;background:black;border-radius:8px;
+                border:1px solid #0ef2dd55;"></video>
+</div>
+
+<script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+<script>
+  const socket = io("https://streaming-torneos-server-1.onrender.com");
+  const liveVideo = document.getElementById("liveVideo");
+  let pcViewer;
+
+  function createViewerPC() {
+    pcViewer = new RTCPeerConnection({
+      iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
+    });
+
+    pcViewer.ontrack = (event) => {
+      liveVideo.srcObject = event.streams[0];
+    };
+
+    pcViewer.onicecandidate = (event) => {
+      if (event.candidate) {
+        socket.emit("viewer-candidate", event.candidate);
+      }
+    };
+  }
+
+  async function startViewer() {
+    createViewerPC();
+
+    const offer = await pcViewer.createOffer();
+    await pcViewer.setLocalDescription(offer);
+
+    socket.emit("viewer-offer", offer);
+
+    socket.on("broadcaster-answer", async (answer) => {
+      await pcViewer.setRemoteDescription(answer);
+    });
+
+    socket.on("broadcaster-candidate", (candidate) => {
+      pcViewer.addIceCandidate(new RTCIceCandidate(candidate));
+    });
+  }
+
+  socket.on("broadcaster-is-live", () => {
+    startViewer();
+  });
+</script>
 
 </body>
 </html>
+
 
