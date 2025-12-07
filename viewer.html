@@ -1,67 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Streaming en vivo 8BP</title>
+<meta charset="UTF-8">
+<title>Ver transmisión</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+<style>
+    body { background:#050712; color:white; text-align:center; padding:20px; }
+    video { width:95%; margin-top:20px; background:black; border-radius:8px; }
+</style>
 </head>
-<body style="background:#000; color:white; text-align:center;">
 
-    <h2>🔴 Jugada en vivo</h2>
-    <video id="live" autoplay playsinline style="width:95%; max-width:600px; border:2px solid #00ffc6; background:black;"></video>
+<body>
 
-    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<h2>🔴 Viendo la jugada en vivo</h2>
+<video id="liveVideo" autoplay playsinline></video>
 
-    <script>
-        const socket = io("https://streaming-torneos-server-1.onrender.com");
-        let peerConnection;
-        const video = document.getElementById("live");
+<script>
+const socket = io("https://streaming-torneos-server-1.onrender.com");
+const video = document.getElementById("liveVideo");
+let pc;
 
-        const config = {
-            iceServers: [
-                { urls: "stun:stun.l.google.com:19302" }
-            ]
-        };
+function createPeerConnection() {
+    pc = new RTCPeerConnection({
+        iceServers: [{ urls:"stun:stun.l.google.com:19302" }]
+    });
 
-        socket.on("broadcaster", id => {
-            socket.emit("watcher", id);
-        });
+    pc.ontrack = (event) => {
+        video.srcObject = event.streams[0];
+    };
 
-        socket.on("offer", (id, description) => {
-            peerConnection = new RTCPeerConnection(config);
+    pc.onicecandidate = (event) => {
+        if (event.candidate) {
+            socket.emit("viewer-candidate", event.candidate);
+        }
+    };
+}
 
-            peerConnection
-                .setRemoteDescription(description)
-                .then(() => peerConnection.createAnswer())
-                .then(sdp => peerConnection.setLocalDescription(sdp))
-                .then(() => {
-                    socket.emit("answer", id, peerConnection.localDescription);
-                });
+async function startViewer() {
+    createPeerConnection();
 
-            peerConnection.ontrack = (e) => {
-                video.srcObject = e.streams[0];
-            };
+    const offer = await pc.createOffer();
+    await pc.setLocalDescription(offer);
 
-            peerConnection.onicecandidate = (event) => {
-                if (event.candidate) {
-                    socket.emit("candidate", id, event.candidate);
-                }
-            };
-        });
+    socket.emit("viewer-offer", offer);
 
-        socket.on("candidate", (id, candidate) => {
-            peerConnection
-                .addIceCandidate(new RTCIceCandidate(candidate))
-                .catch(e => console.error(e));
-        });
+    socket.on("broadcaster-answer", async (answer) => {
+        await pc.setRemoteDescription(answer);
+    });
 
-        socket.on("broadcast-ended", () => {
-            video.srcObject = null;
-        });
+    socket.on("broadcaster-candidate", (candidate) => {
+        pc.addIceCandidate(new RTCIceCandidate(candidate));
+    });
+}
 
-        socket.on("disconnectPeer", () => {
-            if (peerConnection) peerConnection.close();
-        });
-    </script>
+socket.on("broadcaster-is-live", () => {
+    startViewer();
+});
+</script>
 
 </body>
 </html>
