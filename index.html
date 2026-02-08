@@ -5,181 +5,197 @@
   <title>Ranking de Copas - 8 Ball Pool</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<style>
-/* ================= VARIABLES ================= */
-:root {
-  --bg-main:#050712;
-  --bg-card:#0b0f1f;
-  --accent:#00ffc6;
-  --accent-soft:rgba(0,255,198,.12);
-  --text-main:#f5f7ff;
-  --text-muted:#9ca3c7;
-  --gold:#ffd700;
-  --silver:#c0c0c0;
-  --bronze:#cd7f32;
-  --border-soft:rgba(255,255,255,.08);
-  --radius-lg:18px;
-  --shadow-soft:0 18px 40px rgba(0,0,0,.55);
-  --font-main:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-}
+  <style>
+    :root {
+      --bg-main: #050712;
+      --bg-card: #0b0f1f;
+      --accent: #00ffc6;
+      --accent-soft: rgba(0, 255, 198, 0.12);
+      --text-main: #f5f7ff;
+      --text-muted: #9ca3c7;
+      --gold: #ffd700;
+      --silver: #c0c0c0;
+      --bronze: #cd7f32;
+      --danger: #ff4b6b;
+      --border-soft: rgba(255, 255, 255, 0.08);
+      --radius-lg: 18px;
+      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.55);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
 
-/* ================= BASE ================= */
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;overflow-x:hidden}
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; overflow-x: hidden; }
 
-body{
-  font-family:var(--font-main);
-  background:radial-gradient(circle at top,#192345 0,#050712 55%);
-  color:var(--text-main);
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  padding:24px;
-}
+    body {
+      font-family: var(--font-main);
+      background: radial-gradient(circle at top, #192345 0, #050712 55%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
 
-.page{width:100%;max-width:1120px}
+    .page { width: 100%; max-width: 1120px; }
 
-/* ================= HEADER ================= */
-.head{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:20px;
-  gap:16px;
-  align-items:center;
-}
+    /* ================= HEADER ================= */
 
-.head h1{
-  font-size:26px;
-  display:flex;
-  gap:10px;
-  align-items:center;
-}
+    .head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+      align-items: center;
+    }
 
-.logo-dot{
-  width:9px;
-  height:9px;
-  border-radius:50%;
-  background:var(--accent);
-  box-shadow:0 0 12px var(--accent);
-}
+    .head-left h1 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-.head p{font-size:13px;color:var(--text-muted)}
+    .head-left h1 span.logo-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent);
+    }
 
-/* ================= CARD ================= */
-.card{
-  background:linear-gradient(135deg,rgba(0,255,198,.03),rgba(0,128,255,.02));
-  border-radius:18px;
-  padding:18px;
-  border:1px solid var(--border-soft);
-  box-shadow:var(--shadow-soft);
-}
+    .head-left p {
+      margin-top: 4px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
 
-/* ================= TABLE ================= */
-.table-wrapper{
-  border-radius:14px;
-  overflow:auto;
-  border:1px solid var(--border-soft);
-  background:#050712;
-  max-height:520px;
-}
+    .head-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
 
-table{
-  width:100%;
-  border-collapse:collapse;
-  font-size:13px;
-}
+    .badge-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255, 0, 72, 0.1);
+      border: 1px solid rgba(255, 0, 72, 0.4);
+      color: #ff5a8a;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
 
-thead{background:#0b0f1f}
+    .badge-live span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #ff4b6b;
+      box-shadow: 0 0 8px #ff4b6b;
+    }
 
-th,td{
-  padding:10px 12px;
-  white-space:nowrap;
-}
+    /* ================= CARD ================= */
 
-th{
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:.12em;
-  color:var(--text-muted);
-}
+    .card {
+      background: linear-gradient(135deg, rgba(0, 255, 198, 0.03), rgba(0, 128, 255, 0.02));
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(14px);
+    }
 
-tbody tr{
-  background:#050712;
-  cursor:pointer;
-}
+    /* ================= TABLE ================= */
 
-tbody tr:nth-child(even){
-  background:#0a0c18;
-}
+    .table-wrapper {
+      border-radius: 14px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      border: 1px solid var(--border-soft);
+      background: #050712;
+      max-height: 520px;
+    }
 
-tbody tr:hover{
-  background:#121836;
-}
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead { background: rgba(11, 15, 31, 0.9); }
 
-/* ================= PLAYER ================= */
-.player-cell{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      white-space: nowrap;
+    }
 
-.avatar{
-  width:32px;
-  height:32px;
-  border-radius:50%;
-  border:1px solid var(--border-soft);
-  background:#1f2937;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-  font-weight:600;
-  color:var(--accent);
-}
+    th {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-soft);
+    }
 
-.avatar img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
+    tbody tr {
+      background: rgba(5, 7, 18, 0.96);
+      transition: background 0.15s ease, transform 0.12s ease;
+      cursor: pointer;
+    }
 
-/* ================= GIF EFFECT ================= */
-.avatar.has-gif{
-  border:2px solid #00ffc6;
-  box-shadow:0 0 12px #00ffc6;
-  animation:glow 1.6s infinite alternate;
-}
+    tbody tr:hover {
+      background: rgba(18, 24, 54, 0.98);
+      transform: translateY(-1px);
+    }
 
-/* ================= TOP 3 ================= */
-tr:nth-child(1) .avatar{
-  border-color:gold;
-  box-shadow:0 0 15px gold;
-}
+    .player-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-tr:nth-child(2) .avatar{
-  border-color:silver;
-  box-shadow:0 0 15px silver;
-}
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: var(--accent);
+      background: #1f2937;
+      overflow: hidden;
+    }
 
-tr:nth-child(3) .avatar{
-  border-color:#cd7f32;
-  box-shadow:0 0 15px #cd7f32;
-}
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
-@keyframes glow{
-  from{box-shadow:0 0 8px #00ffc6}
-  to{box-shadow:0 0 18px #00ffc6}
-}
+    .cups-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 255, 198, 0.4);
+      background: rgba(0, 255, 198, 0.08);
+      font-size: 11px;
+    }
 
-/* ================= FOOTER ================= */
-.footer{
-  margin-top:10px;
-  display:flex;
-  justify-content:space-between;
-  font-size:11px;
-  color:var(--text-muted);
-}
-</style>
+    .cups-badge span.value {
+      font-weight: 600;
+      color: var(--accent);
+    }
+  </style>
 </head>
 
 <body>
@@ -187,9 +203,12 @@ tr:nth-child(3) .avatar{
 <div class="page">
 
 <header class="head">
-  <div>
-    <h1><span class="logo-dot"></span>Ranking de Copas · 8 Ball Pool</h1>
-    <p>Historial oficial · Torneos nocturnos</p>
+  <div class="head-left">
+    <h1>
+      <span class="logo-dot"></span>
+      Ranking de Copas · 8 Ball Pool
+    </h1>
+    <p>Historial oficial de campeones nocturnos</p>
   </div>
 </header>
 
@@ -214,24 +233,16 @@ tr:nth-child(3) .avatar{
 
 </section>
 
-<footer class="footer">
-<span>1 copa = 1 torneo ganado</span>
-<span>Liga Nocturna</span>
-</footer>
-
 </main>
+
 </div>
 
 <script>
-
-/* ================= GOOGLE SHEET ================= */
 
 const SHEET_CSV_URL =
 "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_0o0lo_oqp60rh4u_bOvadsM0MqWJxzQgcz37DDA9CpP0zujrJ2pkKEBhCGhV8G3bMGOxJGDFdI0O/pub?gid=0&single=true&output=csv";
 
 let jugadoresGlobal=[];
-
-/* ================= CSV ================= */
 
 function parseCSV(text){
 
@@ -261,8 +272,6 @@ function parseCSV(text){
   return rows;
 }
 
-/* ================= UTILS ================= */
-
 function iniciales(nombre){
   return nombre.split(" ")
   .filter(Boolean)
@@ -272,38 +281,37 @@ function iniciales(nombre){
   .toUpperCase();
 }
 
-/* ================= ROW ================= */
-
 function crearFila(pos,j,pais,copas,ultima,notas,foto){
 
   const ini=iniciales(j);
-  const isGif=foto && foto.toLowerCase().endsWith(".gif");
 
-  const content=foto
+  const avatarContent=foto
     ? `<img src="${foto}" onerror="this.parentElement.textContent='${ini}'">`
     : ini;
 
   return`
-<tr data-rank="${pos}">
-<td><b>${pos}</b></td>
+<tr>
+<td>${pos}</td>
 
 <td>
 <div class="player-cell">
-<div class="avatar ${isGif?"has-gif":""}">
-${content}
-</div>
+<div class="avatar">${avatarContent}</div>
 <span>${j}</span>
 </div>
 </td>
 
 <td>${pais}</td>
-<td>${copas}</td>
+
+<td>
+<div class="cups-badge">
+🏆 <span class="value">${copas}</span>
+</div>
+</td>
+
 <td>${ultima}</td>
 <td>${notas}</td>
 </tr>`;
 }
-
-/* ================= RENDER ================= */
 
 function render(lista){
 
@@ -322,8 +330,6 @@ j.foto
 
 }
 
-/* ================= LOAD ================= */
-
 async function cargar(){
 
 try{
@@ -341,7 +347,7 @@ copas:Number((cols[2]||"0").trim()),
 ultimaCopa:(cols[3]||"").trim(),
 notas:(cols[4]||"").trim(),
 
-/* GIF L -> FOTO F */
+// ✅ GIF (L) primero, luego FOTO (F)
 foto:(cols[11]||cols[5]||"").trim(),
 
 }))
