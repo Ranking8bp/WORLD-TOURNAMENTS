@@ -718,9 +718,8 @@
   position: relative;
   z-index: 2;
 }
-    /* ===== FIX NUMEROS Y ENCABEZADOS EN MOVIL ===== */
+    /* ===== FIX NUMEROS Y ENCABEZADOS ===== */
 
-/* Columna del ranking (#) */
 td.position,
 th:first-child {
   min-width: 36px;
@@ -728,7 +727,6 @@ th:first-child {
   white-space: nowrap;
 }
 
-/* Columna País */
 th:nth-child(3),
 td:nth-child(3) {
   min-width: 50px;
@@ -736,14 +734,19 @@ td:nth-child(3) {
   white-space: nowrap;
 }
 
-/* Evitar que el texto se parta */
-th, td {
-  word-break: keep-all !important;
-  overflow-wrap: normal !important;
+/* ===== BANDERAS GRANDES ===== */
+td.flag {
+  font-size: 32px !important;
+  line-height: 1 !important;
+  text-align: center;
 }
 
-/* Ajuste especial móvil */
+/* Móvil */
 @media (max-width: 480px) {
+
+  td.flag {
+    font-size: 36px !important;
+  }
 
   td.position,
   th:first-child {
@@ -756,63 +759,13 @@ th, td {
     min-width: 46px;
     font-size: 12px;
   }
-/* ===== FIX BANDERAS Y COPAS EN MOVIL ===== */
 
-/* Bandera más grande */
-.flag {
-  font-size: 30px; /* tamaño normal */
-  line-height: 1;
-}
-
-/* En móvil */
-@media (max-width: 480px) {
-  .flag {
-    font-size: 22px; /* más grande en celular */
-  }
-}
-
-/* Arreglar badge de copas (no se recorte) */
-.cups-badge {
-  min-width: 125px;      /* más espacio */
-  padding: 6px 14px;     /* aire interno */
-  overflow: visible;    /* evita cortes */
-}
-
-/* En móvil */
-@media (max-width: 480px) {
   .cups-badge {
     min-width: 135px;
     padding: 7px 16px;
-    font-size: 12px;
   }
-}
 
-/* Evitar que la tabla corte contenido */
-td {
-  overflow: visible;
 }
-  /* ===== BANDERAS MÁS GRANDES ===== */
-.flag {
-  font-size: 26px;   /* Cambia este número si quieres más grande */
-  line-height: 1;
-}
-
-/* En celular */
-@media (max-width: 480px) {
-  .flag {
-    font-size: 28px; /* Más grande en móvil */
-  }
-  /* ===== FORZAR TAMAÑO BANDERAS ===== */
-td.flag {
-  font-size: 30px !important;
-  line-height: 1 !important;
-}
-
-/* Móvil */
-@media (max-width: 480px) {
-  td.flag {
-    font-size: 32px !important;
-  }
   </style>
 </head>
 
@@ -1248,6 +1201,7 @@ td.flag {
 <!-- ========================================================= -->
 </body>
 </html>
+
 
 
 
