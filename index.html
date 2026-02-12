@@ -264,7 +264,16 @@
     }
 
     .player-info { display: flex; flex-direction: column; }
-    .player-name { font-weight: 600; font-size: 13px; }
+    .player-name {
+  font-weight: 600;
+  font-size: 13px;
+
+  /* 🔥 evita que se parta */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+}
 
     .flag { font-size: 16px; }
 
@@ -1060,6 +1069,7 @@
 
 </body>
 </html>
+
 
 
 
