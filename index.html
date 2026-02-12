@@ -682,16 +682,24 @@
 }
 
 /* 👑 CORONA - POSICIÓN FINAL */
+/* 👑 CORONA ANCLADA AL AVATAR */
+.avatar {
+  position: relative;   /* referencia para la corona */
+  overflow: hidden;     /* mantiene foto redonda */
+}
+
 .crown {
   position: absolute;
-  top: -32px;           /* ⬅️ más arriba */
+
+  top: -35%;            /* relativo al avatar */
   left: 50%;
+
   transform: translateX(-50%);
 
-  width: 26px;
-  height: 26px;
+  font-size: 22px;
 
-  z-index: 999;
+  z-index: 100;
+
   pointer-events: none;
 
   filter: drop-shadow(0 0 6px gold);
@@ -1153,6 +1161,7 @@
 
 </body>
 </html>
+
 
 
 
