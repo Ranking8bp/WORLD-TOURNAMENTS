@@ -802,7 +802,17 @@ td {
   .flag {
     font-size: 28px; /* Más grande en móvil */
   }
+  /* ===== FORZAR TAMAÑO BANDERAS ===== */
+td.flag {
+  font-size: 30px !important;
+  line-height: 1 !important;
 }
+
+/* Móvil */
+@media (max-width: 480px) {
+  td.flag {
+    font-size: 32px !important;
+  }
   </style>
 </head>
 
@@ -1238,6 +1248,7 @@ td {
 <!-- ========================================================= -->
 </body>
 </html>
+
 
 
 
