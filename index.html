@@ -668,17 +668,20 @@
   }
 }
     /* 👑 ESTILO CORONA */
+/* 👑 CORONA CENTRADA SOBRE EL AVATAR */
 .avatar {
   position: relative;
+  overflow: visible; /* permite que salga arriba */
 }
 
 .crown {
   position: absolute;
-  top: -14px;
+  top: -18px;          /* sube más la corona */
   left: 50%;
-  transform: translateX(-50%);
-  font-size: 20px;
-  z-index: 20;
+  transform: translate(-50%, 0);
+  font-size: 22px;     /* un poco más grande */
+  z-index: 50;
+  pointer-events: none;
   filter: drop-shadow(0 0 6px gold);
 }
   </style>
@@ -1138,6 +1141,7 @@
 
 </body>
 </html>
+
 
 
 
