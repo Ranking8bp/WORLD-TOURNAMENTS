@@ -881,9 +881,6 @@
          onerror="this.onerror=null; this.parentElement.textContent='${iniciales}';">`
     : iniciales;
 
-  /* 👑 Si es el primero, ponemos corona */
-  const corona = posicion === 1 ? `<span class="crown">👑</span>` : "";
-
   return `
     <tr class="row-jugador">
       <td class="position"><span>${posicion}</span></td>
@@ -1148,6 +1145,7 @@
 
 </body>
 </html>
+
 
 
 
