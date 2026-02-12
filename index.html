@@ -681,14 +681,19 @@
   overflow: visible; /* permite que salga arriba */
 }
 
+/* 👑 CORONA - POSICIÓN FINAL */
 .crown {
   position: absolute;
-  top: -28px;          /* sube más la corona */
+  top: -32px;           /* ⬅️ más arriba */
   left: 50%;
-  transform: translate(-50%, 0);
-  font-size: 22px;     /* un poco más grande */
-  z-index: 50;
+  transform: translateX(-50%);
+
+  width: 26px;
+  height: 26px;
+
+  z-index: 999;
   pointer-events: none;
+
   filter: drop-shadow(0 0 6px gold);
 }
   </style>
@@ -1148,6 +1153,7 @@
 
 </body>
 </html>
+
 
 
 
