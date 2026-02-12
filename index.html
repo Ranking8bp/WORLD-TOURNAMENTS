@@ -882,18 +882,25 @@
     }
 
     function renderTabla(lista) {
-      const tbody = document.getElementById("ranking-body");
-      tbody.innerHTML = lista
-        .map((j) =>
-          crearFilaJugador(
-            j.rank, j.jugador, j.pais,
-            j.copas, j.ultimaCopa, j.notas, j.foto
-          )
-        )
-        .join("");
+  const tbody = document.getElementById("ranking-body");
 
-      attachClickJugadores(lista);
-    }
+  tbody.innerHTML = lista
+    .map((j) =>
+      crearFilaJugador(
+        j.rank, j.jugador, j.pais,
+        j.copas, j.ultimaCopa, j.notas, j.foto
+      )
+    )
+    .join("");
+
+  /* 👑 Marcar al primero */
+  const firstRow = tbody.querySelector(".row-jugador");
+  if (firstRow) {
+    firstRow.classList.add("top-1");
+  }
+
+  attachClickJugadores(lista);
+}
 
     function attachClickJugadores(lista) {
       const rows = document.querySelectorAll(".row-jugador");
@@ -1105,6 +1112,7 @@
 
 </body>
 </html>
+
 
 
 
