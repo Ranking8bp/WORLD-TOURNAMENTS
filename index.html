@@ -1270,7 +1270,7 @@ document.getElementById("cup-modal").addEventListener("click", function(){
     socket.on("disconnectPeer", () => {
       resetViewer();
     });
-    /* ===== MODAL COPA MÓVIL FIX ===== */
+   /* ===== MODAL COPA MÓVIL FIX ===== */
 
 function abrirCopa(){
   const modal = document.getElementById("cup-modal");
@@ -1285,24 +1285,19 @@ function cerrarCopa(){
     modal.classList.remove("active");
   }
 }
-  </script>
-</div>
+</script>
 
-<!-- ========================================================= -->
-  <!-- 🏆 MODAL COPA -->
+<!-- 🏆 MODAL COPA -->
 <div id="cup-modal" class="cup-modal" onclick="cerrarCopa()">
   <div class="cup-modal-content" onclick="event.stopPropagation()">
     <img src="copa.png" alt="Copa grande">
     <div class="cup-modal-text">Trofeo del torneo nocturno</div>
   </div>
 </div>
-  <div class="cup-modal-content">
-    <img src="copa.png" alt="Copa grande">
-    <div class="cup-modal-text">Trofeo del torneo nocturno</div>
-  </div>
-</div>
+
 </body>
 </html>
+
 
 
 
