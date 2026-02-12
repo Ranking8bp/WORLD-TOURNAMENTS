@@ -242,8 +242,9 @@
 
     /* 👤 AVATAR REDONDO PERFECTO */
 .avatar {
-  width: 32px;
-  height: 32px;
+  width: 46px;
+  height: 46px;
+}
 
   border-radius: 50%;
   border: 1px solid var(--border-soft);
@@ -764,7 +765,25 @@ td.flag {
     min-width: 135px;
     padding: 7px 16px;
   }
+/* ===== FIX AVATAR MÓVIL DEFINITIVO ===== */
 
+.avatar {
+  width: 46px !important;
+  height: 46px !important;
+  min-width: 46px;
+  min-height: 46px;
+  flex-shrink: 0;
+}
+
+/* Móvil */
+@media (max-width: 480px) {
+  .avatar {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px;
+    min-height: 40px;
+  }
+}
 }
   </style>
 </head>
@@ -1201,6 +1220,7 @@ td.flag {
 <!-- ========================================================= -->
 </body>
 </html>
+
 
 
 
