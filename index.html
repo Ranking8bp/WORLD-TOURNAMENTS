@@ -264,15 +264,19 @@
     }
 
     .player-info { display: flex; flex-direction: column; }
-    .player-name {
-  font-weight: 600;
-  font-size: 13px;
+    .player-cell {
+  min-width: 0;   /* permite que flex se ajuste bien */
+}
 
-  /* 🔥 evita que se parta */
+.player-info {
+  min-width: 0;   /* CLAVE para TikTok */
+}
+
+.player-name {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 120px;
+  max-width: 140px;
 }
 
     .flag { font-size: 16px; }
@@ -1069,6 +1073,7 @@
 
 </body>
 </html>
+
 
 
 
