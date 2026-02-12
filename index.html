@@ -787,6 +787,44 @@ td.flag {
     min-height: 40px;
   }
 }
+/* ===== MODAL COPA GRANDE ===== */
+.cup-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 99999;
+}
+
+.cup-modal.active {
+  display: flex;
+}
+
+.cup-modal-content {
+  background: #050712;
+  border-radius: 18px;
+  padding: 20px;
+
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+
+  text-align: center;
+  max-width: 90%;
+}
+
+.cup-modal-content img {
+  width: 220px;
+  max-width: 100%;
+}
+
+.cup-modal-text {
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--text-muted);
 }
   </style>
 </head>
@@ -977,7 +1015,7 @@ td.flag {
       <td class="flag">${pais}</td>
 
       <td>
-        <div class="cups-badge">
+        <div class="cups-badge cup-click">
           <img src="copa.png" class="copa-icon">
           <span class="value">${copas}</span> copas
         </div>
@@ -1150,6 +1188,21 @@ td.flag {
         if (e.target === modal) cerrarModalJugador();
       });
     });
+    /* ===== CLICK COPA ===== */
+document.addEventListener("click", function(e){
+
+  const cup = e.target.closest(".cup-click");
+  if(!cup) return;
+
+  const modal = document.getElementById("cup-modal");
+  modal.classList.add("active");
+
+});
+
+/* Cerrar modal tocando fondo */
+document.getElementById("cup-modal").addEventListener("click", function(){
+  this.classList.remove("active");
+});
   </script>
 
   <!-- 👀 VIEWER WEBRTC: SOLO RECIBE LA TRANSMISIÓN -->
@@ -1221,8 +1274,16 @@ td.flag {
 </div>
 
 <!-- ========================================================= -->
+  <!-- 🏆 MODAL COPA -->
+<div id="cup-modal" class="cup-modal">
+  <div class="cup-modal-content">
+    <img src="copa.png" alt="Copa grande">
+    <div class="cup-modal-text">Trofeo del torneo nocturno</div>
+  </div>
+</div>
 </body>
 </html>
+
 
 
 
