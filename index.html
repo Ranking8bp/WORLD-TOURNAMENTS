@@ -850,36 +850,47 @@
     }
 
     function crearFilaJugador(posicion, jugador, pais, copas, ultimaCopa, notas, foto) {
-      const iniciales = inicialesDesdeNombre(jugador);
+  const iniciales = inicialesDesdeNombre(jugador);
 
-      const avatarContent = foto
-        ? `<img src="${foto}" alt="${jugador}"
-             onerror="this.onerror=null; this.parentElement.textContent='${iniciales}';">`
-        : iniciales;
+  const avatarContent = foto
+    ? `<img src="${foto}" alt="${jugador}"
+         onerror="this.onerror=null; this.parentElement.textContent='${iniciales}';">`
+    : iniciales;
 
-      return `
-        <tr class="row-jugador" data-rank="${posicion}">
-          <td class="position"><span>${posicion}</span></td>
-          <td>
-            <div class="player-cell">
-              <div class="avatar">${avatarContent}</div>
-              <div class="player-info">
-                <span class="player-name">${jugador}</span>
-              </div>
-            </div>
-          </td>
-          <td class="flag">${pais}</td>
-          <td>
-            <div class="cups-badge">
-              <img src="copa.png" class="copa-icon">
-  <span class="value">${copas}</span> copas
-            </div>
-          </td>
-          <td>${ultimaCopa}</td>
-          <td>${notas}</td>
-        </tr>
-      `;
-    }
+  /* 👑 Si es el primero, ponemos corona */
+  const corona = posicion === 1 ? `<span class="crown">👑</span>` : "";
+
+  return `
+    <tr class="row-jugador">
+      <td class="position"><span>${posicion}</span></td>
+
+      <td>
+        <div class="player-cell">
+          <div class="avatar">
+            ${corona}
+            ${avatarContent}
+          </div>
+
+          <div class="player-info">
+            <span class="player-name">${jugador}</span>
+          </div>
+        </div>
+      </td>
+
+      <td class="flag">${pais}</td>
+
+      <td>
+        <div class="cups-badge">
+          <img src="copa.png" class="copa-icon">
+          <span class="value">${copas}</span> copas
+        </div>
+      </td>
+
+      <td>${ultimaCopa}</td>
+      <td>${notas}</td>
+    </tr>
+  `;
+}
 
     function renderTabla(lista) {
   const tbody = document.getElementById("ranking-body");
@@ -1113,6 +1124,7 @@
 
 </body>
 </html>
+
 
 
 
