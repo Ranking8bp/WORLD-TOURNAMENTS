@@ -269,15 +269,20 @@
     .flag { font-size: 16px; }
 
     .cups-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 9px;
-      border-radius: 999px;
-      border: 1px solid rgba(0, 255, 198, 0.4);
-      background: rgba(0, 255, 198, 0.08);
-      font-size: 11px;
-    }
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 255, 198, 0.4);
+  background: rgba(0, 255, 198, 0.08);
+  font-size: 12px;
+
+  /* 🔥 CLAVE */
+  white-space: nowrap;
+  min-width: 110px;
+  justify-content: center;
+}
 
     .cups-badge span.value { font-weight: 600; color: var(--accent); }
 
@@ -601,13 +606,19 @@
         gap: 6px;
       }
     }
-    .copa-icon {
-  width: 34px;
-  height: 34px;
+.copa-icon {
+  width: 40px;
+  height: 40px;
   vertical-align: middle;
-  margin-right: 8px;
+  margin-right: 10px;
   object-fit: contain;
-  filter: drop-shadow(0 0 10px gold);
+  filter: drop-shadow(0 0 12px gold);
+}
+    @media (max-width: 480px) {
+  .copa-icon {
+    width: 34px;
+    height: 34px;
+  }
 }
   </style>
 </head>
@@ -1047,6 +1058,7 @@
 
 </body>
 </html>
+
 
 
 
