@@ -240,13 +240,15 @@
       gap: 10px;
     }
 
-    .avatar {
+    /* 👤 AVATAR REDONDO PERFECTO */
+.avatar {
   width: 32px;
   height: 32px;
+
   border-radius: 50%;
   border: 1px solid var(--border-soft);
 
-  position: relative; /* para la corona */
+  position: relative;
 
   display: flex;
   align-items: center;
@@ -254,23 +256,19 @@
 
   background-color: #1f2937;
 
-  overflow: hidden; /* vuelve a redondear */
+  overflow: hidden; /* 🔥 CLAVE */
 }
 
 /* Imagen dentro del avatar */
 .avatar img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-}
 
-    .avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
+  object-fit: cover;
+
+  border-radius: 50%; /* 🔥 CLAVE */
+  display: block;
+}
 
     .player-info { display: flex; flex-direction: column; }
     .player-cell {
@@ -1150,6 +1148,7 @@
 
 </body>
 </html>
+
 
 
 
