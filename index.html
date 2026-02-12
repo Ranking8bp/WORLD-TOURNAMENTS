@@ -681,27 +681,14 @@
   overflow: visible; /* permite que salga arriba */
 }
 
-/* 👑 CORONA - POSICIÓN FINAL */
-/* 👑 CORONA ANCLADA AL AVATAR */
-.avatar {
-  position: relative;   /* referencia para la corona */
-  overflow: hidden;     /* mantiene foto redonda */
-}
-
 .crown {
   position: absolute;
-
-  top: -35%;            /* relativo al avatar */
+  top: -30px;          /* sube más la corona */
   left: 50%;
-
-  transform: translateX(-50%);
-
-  font-size: 22px;
-
-  z-index: 100;
-
+  transform: translate(-50%, 0);
+  font-size: 22px;     /* un poco más grande */
+  z-index: 50;
   pointer-events: none;
-
   filter: drop-shadow(0 0 6px gold);
 }
   </style>
@@ -1161,21 +1148,6 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
