@@ -893,10 +893,11 @@
     )
     .join("");
 
-  /* 👑 Marcar al primero */
-  const firstRow = tbody.querySelector(".row-jugador");
-  if (firstRow) {
-    firstRow.classList.add("top-1");
+  /* 👑 Poner corona al primero */
+  const rows = tbody.querySelectorAll(".row-jugador");
+
+  if (rows.length > 0) {
+    rows[0].classList.add("top-1");
   }
 
   attachClickJugadores(lista);
@@ -1112,6 +1113,7 @@
 
 </body>
 </html>
+
 
 
 
