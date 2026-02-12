@@ -240,11 +240,13 @@
       gap: 10px;
     }
 
-    /* 👤 AVATAR REDONDO PERFECTO */
+   /* 👤 AVATAR REDONDO PERFECTO (FIX) */
 .avatar {
   width: 46px;
   height: 46px;
-}
+
+  min-width: 46px;
+  min-height: 46px;
 
   border-radius: 50%;
   border: 1px solid var(--border-soft);
@@ -257,7 +259,8 @@
 
   background-color: #1f2937;
 
-  overflow: hidden; /* 🔥 CLAVE */
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 /* Imagen dentro del avatar */
@@ -1220,6 +1223,7 @@ td.flag {
 <!-- ========================================================= -->
 </body>
 </html>
+
 
 
 
