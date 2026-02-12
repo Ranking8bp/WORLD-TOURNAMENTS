@@ -295,8 +295,8 @@
 
     @media (max-width: 768px) {
       body { padding: 16px; }
-      .head { flex-direction: column; align-items: flex-start; }
-      .head-right { align-items: flex-start; }
+      . { flex-direction: column; align-items: flex-start; }
+      .-right { align-items: flex-start; }
       .filters { flex-direction: column; align-items: flex-start; }
       th:nth-child(5), td:nth-child(5),
       th:nth-child(6), td:nth-child(6) { display: none; }
@@ -326,7 +326,7 @@
       width: 100%;
     }
 
-    .modal-header {
+    .modal-er {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -804,9 +804,10 @@
           </td>
           <td class="flag">${pais}</td>
           <td>
-            <div class="cups-badge">
-              🏆 <span class="value">${copas}</span> copas
-            </div>
+         <div class="cups-badge">
+  <img src="Images/trophy.png" class="icono-copa" alt="Copa">
+  <span class="value">${copas}</span> copas
+</div>
           </td>
           <td>${ultimaCopa}</td>
           <td>${notas}</td>
@@ -1038,4 +1039,5 @@
 
 </body>
 </html>
+
 
