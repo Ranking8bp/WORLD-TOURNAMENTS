@@ -681,14 +681,24 @@
   overflow: visible; /* permite que salga arriba */
 }
 
+/* 👑 CORONA PNG REAL */
 .crown {
   position: absolute;
-  top: -24px;          /* sube más la corona */
+
+  top: -28px;       /* súbela (ajusta si quieres) */
   left: 50%;
-  transform: translate(-50%, 0);
-  font-size: 22px;     /* un poco más grande */
-  z-index: 50;
+
+  transform: translateX(-50%);
+
+  width: 28px;
+  height: 28px;
+
+  background: url("corona.png") no-repeat center;
+  background-size: contain;
+
+  z-index: 100;
   pointer-events: none;
+
   filter: drop-shadow(0 0 6px gold);
 }
   </style>
@@ -882,7 +892,7 @@
     : iniciales;
 
   /* 👑 Si es el primero, ponemos corona */
-  const corona = posicion === 1 ? `<span class="crown">👑</span>` : "";
+  const corona = posicion === 1 ? `<span class="crown"></span>` : "";
 
   return `
     <tr class="row-jugador">
@@ -1148,6 +1158,7 @@
 
 </body>
 </html>
+
 
 
 
