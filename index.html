@@ -1015,7 +1015,7 @@ td.flag {
       <td class="flag">${pais}</td>
 
       <td>
-        <div class="cups-badge cup-click">
+        <div class="cups-badge" onclick="abrirCopa()">
           <img src="copa.png" class="copa-icon">
           <span class="value">${copas}</span> copas
         </div>
@@ -1270,6 +1270,21 @@ document.getElementById("cup-modal").addEventListener("click", function(){
     socket.on("disconnectPeer", () => {
       resetViewer();
     });
+    /* ===== MODAL COPA MÓVIL FIX ===== */
+
+function abrirCopa(){
+  const modal = document.getElementById("cup-modal");
+  if(modal){
+    modal.classList.add("active");
+  }
+}
+
+function cerrarCopa(){
+  const modal = document.getElementById("cup-modal");
+  if(modal){
+    modal.classList.remove("active");
+  }
+}
   </script>
 </div>
 
@@ -1283,6 +1298,7 @@ document.getElementById("cup-modal").addEventListener("click", function(){
 </div>
 </body>
 </html>
+
 
 
 
