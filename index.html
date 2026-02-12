@@ -718,6 +718,45 @@
   position: relative;
   z-index: 2;
 }
+    /* ===== FIX NUMEROS Y ENCABEZADOS EN MOVIL ===== */
+
+/* Columna del ranking (#) */
+td.position,
+th:first-child {
+  min-width: 36px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Columna País */
+th:nth-child(3),
+td:nth-child(3) {
+  min-width: 50px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Evitar que el texto se parta */
+th, td {
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+}
+
+/* Ajuste especial móvil */
+@media (max-width: 480px) {
+
+  td.position,
+  th:first-child {
+    min-width: 40px;
+    font-size: 12px;
+  }
+
+  th:nth-child(3),
+  td:nth-child(3) {
+    min-width: 46px;
+    font-size: 12px;
+  }
+
   </style>
 </head>
 
@@ -1153,6 +1192,7 @@
 <!-- ========================================================= -->
 </body>
 </html>
+
 
 
 
