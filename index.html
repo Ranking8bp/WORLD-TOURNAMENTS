@@ -756,7 +756,41 @@ th, td {
     min-width: 46px;
     font-size: 12px;
   }
+/* ===== FIX BANDERAS Y COPAS EN MOVIL ===== */
 
+/* Bandera más grande */
+.flag {
+  font-size: 20px; /* tamaño normal */
+  line-height: 1;
+}
+
+/* En móvil */
+@media (max-width: 480px) {
+  .flag {
+    font-size: 22px; /* más grande en celular */
+  }
+}
+
+/* Arreglar badge de copas (no se recorte) */
+.cups-badge {
+  min-width: 125px;      /* más espacio */
+  padding: 6px 14px;     /* aire interno */
+  overflow: visible;    /* evita cortes */
+}
+
+/* En móvil */
+@media (max-width: 480px) {
+  .cups-badge {
+    min-width: 135px;
+    padding: 7px 16px;
+    font-size: 12px;
+  }
+}
+
+/* Evitar que la tabla corte contenido */
+td {
+  overflow: visible;
+}
   </style>
 </head>
 
@@ -1192,6 +1226,7 @@ th, td {
 <!-- ========================================================= -->
 </body>
 </html>
+
 
 
 
