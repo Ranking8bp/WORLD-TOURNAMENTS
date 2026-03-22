@@ -1121,6 +1121,21 @@ td.flag {
       } else {
         tiktokBox.innerHTML = "";
       }
+      /* ===== LOGROS DESDE SHEET ===== */
+
+if (!j.logros) {
+
+  boxLogros.innerHTML = "Sin logros aún";
+
+} else {
+
+  const lista = j.logros.split("|");
+
+  boxLogros.innerHTML = lista
+    .map(l => "✅ " + l.trim())
+    .join("<br>");
+
+}
 /* ===== LOGROS ===== */
 
 const logros = {
@@ -1177,7 +1192,8 @@ if (lista.length === 0) {
 
             // ✅ NUEVO: columnas para 1VS1 (agrega 2 columnas en tu Sheet)
             wins1v1: Number((cols[7] || "0").trim()),
-            losses1v1: Number((cols[8] || "0").trim())
+losses1v1: Number((cols[8] || "0").trim()),
+logros: (cols[9] || "").trim()
           }))
           .filter((j) => j.jugador)
           .sort((a, b) => b.copas - a.copas)
