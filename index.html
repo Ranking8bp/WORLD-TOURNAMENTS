@@ -940,6 +940,10 @@ td.flag {
         <!-- Botón TikTok -->
         <div id="modal-tiktok" style="margin-top: 12px;"></div>
       </div>
+      <div class="modal-notes">
+  <strong>LOGROS</strong>
+  <div id="modal-logros">Sin logros</div>
+</div>
     </div>
   </div>
 
@@ -1116,7 +1120,35 @@ td.flag {
       } else {
         tiktokBox.innerHTML = "";
       }
+/* ===== LOGROS ===== */
 
+const logros = {
+
+  "JASON MEJIA": [
+    "🏆 Campeón nocturno",
+    "🔥 Racha 5",
+    "🎯 Mejor tiro",
+    "💀 Invicto"
+  ],
+
+  "MARA": [
+    "🏆 Campeón nocturno"
+  ],
+
+  "FRANCISCO": [
+    "🥇 Primero en llegar a 10 copas",
+    "🥇 Primero en llegar a 20 copas"
+  ]
+
+};
+
+const lista = logros[j.jugador.toUpperCase()] || [];
+
+if (lista.length === 0) {
+  boxLogros.innerHTML = "Sin logros aún";
+} else {
+  boxLogros.innerHTML = lista.map(l => "✅ " + l).join("<br>");
+}
       modal.classList.add("active");
     }
 
