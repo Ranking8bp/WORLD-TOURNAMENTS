@@ -1136,13 +1136,6 @@ if (!j.logros) {
     .join("<br>");
 
 }
-const lista = logros[j.jugador.toUpperCase()] || [];
-
-if (lista.length === 0) {
-  boxLogros.innerHTML = "Sin logros aún";
-} else {
-  boxLogros.innerHTML = lista.map(l => "✅ " + l).join("<br>");
-}
       modal.classList.add("active");
     }
 
